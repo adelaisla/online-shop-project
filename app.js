@@ -9,6 +9,9 @@ const csrfTokenMiddleware = require('./middlewares/csrf-token');
 const errorHandlerMiddleware = require('./middlewares/error-handler');
 
 const authRoutes = require('./routes/auth.routes');
+const productsRoutes = require('./routes/products.routes');
+const baseRoutes = require('./routes/base.routes');
+const checkAuthStatusMiddleware = require('./middlewares/check-auth');
 
 const app = express();
 
@@ -22,11 +25,13 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(csrf());
 app.use(csrfTokenMiddleware);
+app.use(checkAuthStatusMiddleware);
 app.use(errorHandlerMiddleware);
 
-app.use(authRoutes);
 
-app.use
+app.use(authRoutes)
+app.use(productsRoutes);
+app.use(baseRoutes);
 
 db.connectToDatabase()
   .then(function () {
