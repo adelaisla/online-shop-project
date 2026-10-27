@@ -11,12 +11,15 @@ const errorHandlerMiddleware = require('./middlewares/error-handler');
 const authRoutes = require('./routes/auth.routes');
 const productsRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
+const adminRoutes = require('./routes/admin.routes');
 const checkAuthStatusMiddleware = require('./middlewares/check-auth');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+
 
 const sessionConfig = createSessionConfig();
 
@@ -32,6 +35,7 @@ app.use(errorHandlerMiddleware);
 app.use(authRoutes)
 app.use(productsRoutes);
 app.use(baseRoutes);
+app.use('/admin', adminRoutes);
 
 db.connectToDatabase()
   .then(function () {
