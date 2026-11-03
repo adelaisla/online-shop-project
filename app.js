@@ -12,6 +12,7 @@ const authRoutes = require('./routes/auth.routes');
 const productsRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
 const adminRoutes = require('./routes/admin.routes');
+const cartRoutes = require('./routes/cart.routes');
 const checkAuthStatusMiddleware = require('./middlewares/check-auth');
 const protectRoutesMiddleware = require('./middlewares/protect-routes');
 
@@ -28,6 +29,7 @@ app.use(expressSession(sessionConfig));
 app.use(express.static('public'));
 app.use('/products/assets', express.static('product-data'));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(csrf());
 app.use(cartMiddleware);
 app.use(csrfTokenMiddleware);
@@ -36,8 +38,10 @@ app.use(checkAuthStatusMiddleware);
 app.use(authRoutes)
 app.use(productsRoutes);
 app.use(baseRoutes);
+app.use('/cart', cartRoutes);
 app.use(protectRoutesMiddleware);
 app.use('/admin', adminRoutes);
+
 
 app.use(errorHandlerMiddleware);
 
